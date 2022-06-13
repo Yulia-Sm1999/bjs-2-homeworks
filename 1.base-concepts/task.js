@@ -2,18 +2,18 @@
 
 function solveEquation(a, b, c) {
   let arr;
-  let x1;
-  let x2;
-  let d = b ** 2 - 4 * a * c;
+  let equationRoot1;
+  let equationRoot2;
+  const d = b ** 2 - 4 * a * c;
   if (d < 0) {
     arr = [];
   } else if (d === 0) {
-    x1 = -b / (2 * a);
-    arr = [x1];
+    equationRoot1 = -b / (2 * a);
+    arr = [equationRoot1];
   } else {
-    x1 = (-b + Math.sqrt(d)) / (2 * a);
-    x2 = (-b - Math.sqrt(d)) / (2 * a);
-    arr = [x1, x2];
+    equationRoot1 = (-b + Math.sqrt(d)) / (2 * a);
+    equationRoot2 = (-b - Math.sqrt(d)) / (2 * a);
+    arr = [equationRoot1, equationRoot2];
   };
 
   return arr; 
@@ -24,12 +24,30 @@ function solveEquation(a, b, c) {
 function calculateTotalMortgage(percent, contribution, amount, date) {
   let totalAmount;
 
-  let mortgageBody = amount - contribution;
-  let date2 = new Date();
-  let period = (date - date2) / (1000 * 60 * 60 * 24 *30);
-  let P = (1 / 12 * percent/100);
-  let monthlyPayment = mortgageBody * (P + (P / ((1 + P) ** period - 1)));
+  percent = Number(percent);
+  contribution = Number(contribution);
+  amount = Number(amount);
 
-  totalAmount = (+contribution + (monthlyPayment * period)).toFixed(2);
-  return totalAmount;
+
+  if (Number.isNaN(percent)) {
+    return (`Параметр 'Процентная ставка' содержит неправильное значение ${percent}`);
+  } else if (Number.isNaN(contribution)) {
+    return (`Параметр 'Начальный взнос' содержит неправильное значение ${contribution}`);
+  } else if (Number.isNaN(amount)) {
+    return (`Параметр 'Общая стоимость' содержит неправильное значение ${amount}`);
+  } 
+  
+  let mortgageBody = amount - contribution;
+
+  if (mortgageBody === 0) {
+    return totalAmount = 0;
+  } else {
+    let date2 = new Date();
+    let period = Math.floor((date - date2) / (1000 * 60 * 60 * 24 * 30));
+    let P = (1 / 12 * percent / 100);
+    let monthlyPayment = mortgageBody * (P + (P / ((1 + P) ** period - 1)));
+
+    totalAmount = Number((contribution + (monthlyPayment * period)).toFixed(2));
+    return totalAmount;
+  }
 }
