@@ -28,13 +28,12 @@ Student.prototype.addMarks = function (...marks) {
   }
 };
 
-Student.prototype.getAverage = function () { 
-  let sum = this.marks.reduce((acc, mark) => acc += mark, 0);
-
-  if (this.marks.length > 0) {
-    return sum / this.marks.length;
+Student.prototype.getAverage = function () {
+  if (this.marks.length === 0) {
+    return 0;
   } else {
-    return sum / 1;
+    let sum = this.marks.reduce((acc, mark) => acc + mark, 0);
+    return sum / this.marks.length;
   }
 };
 
@@ -42,4 +41,4 @@ Student.prototype.exclude = function (reason) {
   delete this.subject;
   delete this.marks;
   this.excluded = reason;
-}
+};
