@@ -26,7 +26,6 @@ class PrintEditionItem {
   }
 }
 
-
 class Magazine extends PrintEditionItem {
   constructor (name, releaseDate, pagesCount) {
       super(name, releaseDate, pagesCount);
@@ -63,7 +62,9 @@ class DetectiveBook extends Book {
   }
 }
 
-/*З А Д А Ч А  №2*/
+
+
+//З А Д А Ч А  №2
 
 class Library {
   constructor(name, books = []) {
@@ -72,20 +73,66 @@ class Library {
   }
 }
 
-addBook(book) {
-  if (book._state > 30) {
-    this.books.push(book);
+addBook(PrintEditionItem) {
+  if (PrintEditionItem._state > 30) {
+    this.books.push(PrintEditionItem);
   }
 }
 
 findBookBy(type, value) {
-  if (bookObject.type = value) {
-    return (bookName = bookObject.name);
+  if (PrintEditionItem.type = value) {
+    return (bookName = PrintEditionItem.name);
   } else {
     return null;
   }
 }
 
 giveBookByName(bookName) {
+  if (Library.find(bookName => bookName === PrintEditionItem.name) {
+    delete PrintEditionItem;
+    return PrintEditionItem;
+  } else {
+    return null;
+  }
+}
 
+// З А Д А Ч А №3
+
+function Student(name, gender, age) {
+  this.name = name;
+  this.gender = gender;
+  this.age = age;
+}
+
+let student3 = new Student('Ann', 'female', 20);
+let student4 = new Student('Max', 'male', 18);
+let student5 = new Student('Jack', 'male', 21);
+
+Student.prototype.addMark = function (mark, subjectName) {
+  if (mark < 1 && mark > 5) {
+    return 'Ошибка, оценка должна быть числом от 1 до 5';
+  }
+
+  if (this.marks[subjectName] === undefined) {
+    this.marks[subjectName] = [mark];
+  } else {
+    this.marks[subjectName].push(mark);
+  }
+}
+
+Student.prototype.getAverageBySubject = function (subjectName) {
+  if (this.marks[subjectName] === undefined) {
+    return 'Несуществующий предмет'
+  } else {
+    let sum = this.marks[subjectName].reduce((acc, mark) => acc + mark, 0);
+    return sum / this.marks[subjectName].length;
+  }
+}
+
+Student.prototype.getAverage = function () {
+  let sum = 0;
+  for (let subject in this.marks) {
+    sum += subject.reduce((acc, mark) => acc + mark, 0);
+  }
+  return sum / this.marks.length;
 }
