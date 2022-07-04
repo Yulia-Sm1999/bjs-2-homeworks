@@ -11,7 +11,7 @@ class PrintEditionItem {
     this._state *= 1.5;
   }
 
-  set state(state = this._state) {
+  set state(state = this.fix()) {
     if (state > 100) {
       this._state = 100;
     } else if (state < 0) {
@@ -71,28 +71,32 @@ class Library {
     this.name = name;
     this.books = books;
   }
-}
 
-addBook(PrintEditionItem) {
-  if (PrintEditionItem._state > 30) {
-    this.books.push(PrintEditionItem);
+  addBook(book) {
+    if (book._state > 30) {
+      this.books.push(book);
+    }
   }
-}
 
-findBookBy(type, value) {
-  if (PrintEditionItem.type = value) {
-    return (bookName = PrintEditionItem.name);
-  } else {
-    return null;
+  findBookBy(type, value) {
+    let book = this.books.find(book => book[type] === value);
+
+    if (book === undefined) {
+      return null;
+    } else {
+      return book;
+    } 
   }
-}
+  
+  giveBookByName(bookName) {
+    let theBook = this.books.find(book => book.name === bookName);
 
-giveBookByName(bookName) {
-  if (Library.find(bookName => bookName === PrintEditionItem.name) {
-    delete PrintEditionItem;
-    return PrintEditionItem;
-  } else {
-    return null;
+    if (theBook === undefined) {
+      return null;
+    } else {
+      this.books.splice(this.books.indexOf(theBook), 1)
+      return theBook;
+    } 
   }
 }
 
@@ -112,12 +116,18 @@ Student.prototype.addMark = function (mark, subjectName) {
   if (mark < 1 && mark > 5) {
     return 'Ошибка, оценка должна быть числом от 1 до 5';
   }
-
-  if (this.marks[subjectName] === undefined) {
-    this.marks[subjectName] = [mark];
-  } else {
-    this.marks[subjectName].push(mark);
+  
+  if (this.marks === undefined) {
+    this.marks = [];
   }
+  
+  let subject = this.marks.find(subject => subject.name === subjectName);
+
+    if (subject === undefined) {
+      this.marks[subject] = [mark];
+    } else {
+      this.marks[subjectName].push(mark);
+    } 
 }
 
 Student.prototype.getAverageBySubject = function (subjectName) {
