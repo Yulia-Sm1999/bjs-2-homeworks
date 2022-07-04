@@ -1,14 +1,17 @@
 function parseCount(string) {
-  if (Number.isNaN(Number.parseInt(string))) {
+  let number = Number.parseInt(string);
+
+  if (Number.isNaN(number)) {
     throw new Error("Невалидное значение");
   } 
-  return Number.parseInt(string);
+
+  return number;
 }
 
 
 function validateCount(string) {
   try {
-    parseCount(string);
+    return parseCount(string);
   } catch (error) {
     return error;
   }
@@ -20,20 +23,20 @@ class Triangle {
   constructor(side1, side2, side3) {
     if ((side1 > side2 + side3) || (side2 > side1 + side3) || (side3 > side1 + side2)) {
       throw new Error("Треугольник с такими сторонами не существует");
-    } else {
+    } 
+
       this.side1 = side1;
       this.side2 = side2;
       this.side3 = side3;
-    }
   }
 
   getPerimeter() {
-    return this.perimeter = this.side1 + this.side2 + this.side3;
+    return this.side1 + this.side2 + this.side3;
   }
 
   getArea() {
-    let p = ((this.side1 + this.side2 + this.side3) / 2);
-    return this.area = (Math.sqrt(p * (p - this.side1)(p - this.side2)(p - this.side3))).toFixed(3);
+    let p = (this.getPerimeter() / 2);
+    return Number(Math.sqrt(p * (p - this.side1)(p - this.side2)(p - this.side3))).toFixed(3);
   }
 }
 
