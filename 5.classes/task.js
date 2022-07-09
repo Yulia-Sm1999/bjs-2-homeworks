@@ -3,21 +3,21 @@ class PrintEditionItem {
     this.name = name;
     this.releaseDate = releaseDate;
     this.pagesCount = pagesCount;
-    this._state = 100;
+    this.state = 100;
     this.type = null;
   }
 
   fix() {
-    this._state *= 1.5;
+    this.state *= 1.5;
   }
 
-  set state(state = this.fix()) {
-    if (state > 100) {
+  set state(_state) {
+    if (_state > 100) {
       this._state = 100;
-    } else if (state < 0) {
+    } else if (_state < 0) {
       this._state = 0;
     } else {
-      this._state = state;
+      this._state = _state;
     }
   }
 
@@ -73,7 +73,7 @@ class Library {
   }
 
   addBook(book) {
-    if (book._state > 30) {
+    if (book.state > 30) {
       this.books.push(book);
     }
   }
@@ -102,47 +102,47 @@ class Library {
 
 // З А Д А Ч А №3
 
-function Student(name, gender, age) {
-  this.name = name;
-  this.gender = gender;
-  this.age = age;
-}
+class Student {
+  constructor(name, gender, age) {
+    this.name = name;
+    this.gender = gender;
+    this.age = age;
+  }
 
-let student3 = new Student('Ann', 'female', 20);
-let student4 = new Student('Max', 'male', 18);
-let student5 = new Student('Jack', 'male', 21);
-
-Student.prototype.addMark = function (mark, subjectName) {
-  if (mark < 1 && mark > 5) {
-    return 'Ошибка, оценка должна быть числом от 1 до 5';
+  addMark (mark, subjectName) {
+    if (mark < 1 && mark > 5) {
+      return 'Ошибка, оценка должна быть числом от 1 до 5';
+    }
+    
+    if (this.marks === undefined) {
+      this.marks = {};
+    }
+    
+    if (this.marks[subjectName] === undefined) {
+      this.marks[subjectName] = [mark];
+      } else {
+        this.marks[subjectName].push(mark);
+      } 
   }
   
-  if (this.marks === undefined) {
-    this.marks = [];
-  }
   
-  let subject = this.marks.find(subject => subject.name === subjectName);
-
-    if (subject === undefined) {
-      this.marks[subject] = [mark];
+  getAverageBySubject(subjectName) {
+    if (this.marks[subjectName] === undefined) {
+      return 'Несуществующий предмет'
     } else {
-      this.marks[subjectName].push(mark);
-    } 
-}
-
-Student.prototype.getAverageBySubject = function (subjectName) {
-  if (this.marks[subjectName] === undefined) {
-    return 'Несуществующий предмет'
-  } else {
-    let sum = this.marks[subjectName].reduce((acc, mark) => acc + mark, 0);
-    return sum / this.marks[subjectName].length;
+      let sum = this.marks[subjectName].reduce((acc, mark) => acc + mark, 0);
+      return sum / this.marks[subjectName].length;
+    }
   }
-}
 
-Student.prototype.getAverage = function () {
-  let sum = 0;
-  for (let subject in this.marks) {
-    sum += subject.reduce((acc, mark) => acc + mark, 0);
-  }
-  return sum / this.marks.length;
+  getAverage() {
+    let sum = 0;
+    let count = 0;
+    
+    for (let subject in this.marks) {
+      count += 1;
+      sum += this.getAverageBySubject(subject);
+    }
+    return sum / count;
+  }    
 }
