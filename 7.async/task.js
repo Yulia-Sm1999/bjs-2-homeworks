@@ -20,9 +20,12 @@ class AlarmClock {
   removeClock(id) {
     let initialLength = this.alarmCollection.length;
     let indexOfTheId = this.alarmCollection.findIndex(callObj => callObj.id === id);
-    this.alarmCollection.splice(indexOfTheId, 1);
-    let currentlength = this.alarmCollection.length;
 
+    if (indexOfTheId > -1) {
+      this.alarmCollection.splice(indexOfTheId, 1);
+    }
+    
+    let currentlength = this.alarmCollection.length;
     return currentlength < initialLength;
   }
 
