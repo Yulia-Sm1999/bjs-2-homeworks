@@ -19,29 +19,39 @@ function cachingDecoratorNew(func) {
   return wrapper;
 }
 
+
 function debounceDecoratorNew(func, delay) {
-  let timeoutId = 0;
+  let timeoutId = null;
+  let isFirstCall = true;
 
   return function (...args) {
-    timeoutId += 1;
-    if (timeoutId > 1) {
-      setTimeout(() => (func(...args)), delay);
-    }
-    func(...args)
+    if (isFirstCall) {
+      func(...args);
+    };
+    
+    setTimeout(() => {
+      timeoutId = null
+      isFirstCall = false;
+      func(...args);
+    }, delay);
   }
 }
 
 function debounceDecorator2(func) {
-  let timeoutId = 0;
-  wrapper.count = 0;
+  let timeoutId = null;
+  let isFirstCall = true;
+  count = 0;
 
-   function wrapper(...args) {
-    timeoutId += 1;
-    wrapper.count += 1;
-    if (timeoutId > 1) {
-      setTimeout(() => (func(...args)), delay);
-    }
-    func(...args)
+  return function (...args) {
+    count += 1;
+    if (isFirstCall) {
+      func(...args);
+    };
+    
+    setTimeout(() => {
+      timeoutId = null
+      isFirstCall = false;
+      func(...args);
+    }, delay);
   }
-  return wrapper;
 }
