@@ -26,32 +26,38 @@ function debounceDecoratorNew(func, delay) {
 
   return function (...args) {
     if (isFirstCall) {
-      func(...args);
+      isFirstCall = false;
+      return func(...args);
     };
+
+    clearTimeout(timeoutId);
     
     setTimeout(() => {
-      timeoutId = null
-      isFirstCall = false;
-      func(...args);
+      return func(...args);
     }, delay);
-  }
+  };
 }
 
 function debounceDecorator2(func) {
   let timeoutId = null;
   let isFirstCall = true;
-  count = 0;
 
-  return function (...args) {
-    count += 1;
-    if (isFirstCall) {
-      func(...args);
-    };
+  function wrapper() {
+    wrapper.count += 1;
+  
+    return function (...args) {
+      if (isFirstCall) {
+        isFirstCall = false;
+        return func(...args);
+      };
+
+      clearTimeout(timeoutId);
     
-    setTimeout(() => {
-      timeoutId = null
-      isFirstCall = false;
-      func(...args);
-    }, delay);
-  }
+      setTimeout(() => {
+        return func(...args);
+      }, delay);
+    };
+  };
+  wrapper.count = 0;
+  return wrapper;
 }
