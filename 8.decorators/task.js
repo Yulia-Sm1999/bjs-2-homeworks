@@ -38,25 +38,20 @@ function debounceDecoratorNew(func, delay) {
   };
 }
 
-function debounceDecorator2(func) {
+function debounceDecorator2(func, delay) {
   let timeoutId = null;
   let isFirstCall = true;
 
-  function wrapper() {
+  function wrapper(...args) {
     wrapper.count += 1;
   
-    return function (...args) {
       if (isFirstCall) {
         isFirstCall = false;
         return func(...args);
       };
 
       clearTimeout(timeoutId);
-    
-      setTimeout(() => {
-        return func(...args);
-      }, delay);
-    };
+      setTimeout(() => func(...args), delay);
   };
   wrapper.count = 0;
   return wrapper;
